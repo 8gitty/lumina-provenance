@@ -26,7 +26,7 @@ const CustomCursor = () => {
       mousePos.current = { x: e.clientX, y: e.clientY };
       const target = e.target;
       isHovering.current = target.closest('a, button, label, .upload-area, input, [role="button"]') !== null;
-      
+
       if (!requestRef.current) {
         requestRef.current = requestAnimationFrame(updateCursor);
       }
@@ -39,7 +39,7 @@ const CustomCursor = () => {
         const size = isHovering.current ? 40 : 20;
         const offset = size / 2;
         cursorRef.current.style.transform = `translate3d(${mousePos.current.x - offset}px, ${mousePos.current.y - offset}px, 0)`;
-        
+
         if (isHovering.current) {
           cursorRef.current.classList.add('hovering');
         } else {
@@ -84,10 +84,10 @@ const MagneticButton = ({ children, onClick, disabled, className, ...props }) =>
     if (ref.current) ref.current.style.transform = '';
   };
   return (
-    <button 
-      ref={ref} 
-      className={`magnetic-btn ${className || ''}`} 
-      onClick={onClick} 
+    <button
+      ref={ref}
+      className={`magnetic-btn ${className || ''}`}
+      onClick={onClick}
       disabled={disabled}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -102,7 +102,7 @@ const RadialProgress = ({ score }) => {
   const radius = 20;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - score * circumference;
-  
+
   return (
     <div className="radial-progress">
       <svg viewBox="0 0 48 48">
@@ -114,8 +114,8 @@ const RadialProgress = ({ score }) => {
           </linearGradient>
         </defs>
         <circle className="radial-bg" cx="24" cy="24" r={radius} />
-        <circle className="radial-value" cx="24" cy="24" r={radius} 
-          style={{ strokeDasharray: circumference, strokeDashoffset }} 
+        <circle className="radial-value" cx="24" cy="24" r={radius}
+          style={{ strokeDasharray: circumference, strokeDashoffset }}
         />
       </svg>
       <span className="radial-text">{(score * 100).toFixed(0)}</span>
@@ -170,7 +170,7 @@ function App() {
     if (soundEnabled) {
       const click = new Audio('/click.wav');
       click.volume = 0.6;
-      click.play().catch(() => {});
+      click.play().catch(() => { });
     }
   };
 
@@ -178,7 +178,7 @@ function App() {
     if (soundEnabled) {
       const success = new Audio('/success.wav');
       success.volume = 0.8;
-      success.play().catch(() => {});
+      success.play().catch(() => { });
     }
   };
 
@@ -205,7 +205,7 @@ function App() {
     setAnchorData(null)
     setError(null)
     playClick()
-    
+
     setTimeout(() => {
       document.getElementById('scene-ingestion').scrollIntoView({ behavior: 'smooth' })
     }, 300)
@@ -215,8 +215,8 @@ function App() {
     if (!file || !consent) return
     playClick()
     setError(null)
-    setStage(1) 
-    
+    setStage(1)
+
     setTimeout(() => {
       document.getElementById('scene-search').scrollIntoView({ behavior: 'smooth' })
     }, 300)
@@ -224,14 +224,14 @@ function App() {
     const formData = new FormData()
     formData.append('image', file)
     try {
-      const res = await fetch('http://localhost:8000/api/analyze', {
+      const res = await fetch('https://lumina-provenance.onrender.com/api/analyze', {
         method: 'POST',
         body: formData
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.detail || 'Analysis failed.')
       setResults(data)
-      setStage(3) 
+      setStage(3)
     } catch (err) {
       setError(err.message)
       setStage(0)
@@ -244,8 +244,8 @@ function App() {
   const handleAnchor = async (match) => {
     playClick()
     setError(null)
-    setStage(4) 
-    
+    setStage(4)
+
     setTimeout(() => {
       document.getElementById('scene-terminal').scrollIntoView({ behavior: 'smooth' })
     }, 300)
@@ -257,18 +257,18 @@ function App() {
         score: match.score,
         pageTitle: match.page_title || match.source || match.url
       }
-      const res = await fetch('http://localhost:8000/api/anchor', {
+      const res = await fetch('https://lumina-provenance.onrender.com/api/anchor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data.detail || 'Ledger anchoring failed.')
-      
+
       setAnchorData(data)
       setStage(5)
       playSuccess()
-      
+
     } catch (err) {
       setError(err.message)
       setStage(3)
@@ -329,13 +329,13 @@ function App() {
           <section className={`scene hero-scene ${heroVisible ? 'is-visible' : ''}`} ref={heroRef}>
             <div className="hero-content">
               <h1 className="hero-title">
-                <KineticText text="Zero-Knowledge" startDelay={2.0} /><br/>
+                <KineticText text="Zero-Knowledge" startDelay={2.0} /><br />
                 <KineticText text="Visual Truth." startDelay={2.8} />
               </h1>
               <p className="hero-subtitle">
                 Securely map digital assets to their web origins. Generate immutable cryptographic footprints and anchor them directly to decentralized ledgers.
               </p>
-              <MagneticButton onClick={() => { playClick(); document.getElementById('scene-ingestion').scrollIntoView({ behavior: 'smooth' })}}>
+              <MagneticButton onClick={() => { playClick(); document.getElementById('scene-ingestion').scrollIntoView({ behavior: 'smooth' }) }}>
                 COMMENCE PROTOCOL
               </MagneticButton>
             </div>
@@ -351,19 +351,19 @@ function App() {
                 <span className="scene-num">01</span>
                 <h2>Asset Ingestion</h2>
               </div>
-              
+
               <div className="ingestion-panel">
-                <div 
+                <div
                   className={`upload-area ${file ? 'active' : ''}`}
                   onClick={() => { playClick(); !file && fileInputRef.current?.click() }}
                 >
-                  {!file && <input 
-                    type="file" 
-                    ref={fileInputRef} 
+                  {!file && <input
+                    type="file"
+                    ref={fileInputRef}
                     onChange={handleFile}
-                    accept="image/jpeg, image/png, image/webp" 
+                    accept="image/jpeg, image/png, image/webp"
                   />}
-                  
+
                   {preview ? (
                     <div className="preview-container">
                       <img src={preview} alt="Asset preview" className="preview-image" />
@@ -372,8 +372,8 @@ function App() {
                           <div className="preview-name">{file.name}</div>
                           <div className="mono preview-size">{(file.size / 1024).toFixed(2)} KB</div>
                         </div>
-                        <button 
-                          className="btn-clear" 
+                        <button
+                          className="btn-clear"
                           onClick={(e) => {
                             e.stopPropagation();
                             playClick();
@@ -405,11 +405,11 @@ function App() {
 
                 {file && !results && stage === 0 && (
                   <div className="consent-box animate-fade-up">
-                    <input 
-                      type="checkbox" 
+                    <input
+                      type="checkbox"
                       id="consent-check"
-                      checked={consent} 
-                      onChange={(e) => { playClick(); setConsent(e.target.checked)}} 
+                      checked={consent}
+                      onChange={(e) => { playClick(); setConsent(e.target.checked) }}
                     />
                     <label htmlFor="consent-check">
                       I authorize the cryptographic hashing of this asset. This protocol strictly verifies provenance and does not execute facial recognition on private individuals.
@@ -418,9 +418,9 @@ function App() {
                 )}
 
                 {file && !results && stage === 0 && (
-                  <button 
-                    className="btn-primary" 
-                    style={{width: '100%', marginTop: '2rem'}} 
+                  <button
+                    className="btn-primary"
+                    style={{ width: '100%', marginTop: '2rem' }}
                     disabled={!consent}
                     onClick={handleAnalyze}
                   >
@@ -441,7 +441,7 @@ function App() {
 
               {stage === 1 && (
                 <div className="results-panel">
-                  <div className="skeleton skeleton-card" style={{height: '80px'}}></div>
+                  <div className="skeleton skeleton-card" style={{ height: '80px' }}></div>
                   <h3 className="section-subtitle">Scanning Web Index</h3>
                   <div className="skeleton skeleton-card"></div>
                   <div className="skeleton skeleton-card"></div>
@@ -463,7 +463,7 @@ function App() {
                   </div>
 
                   <h3 className="section-subtitle">Discovered Origins</h3>
-                  
+
                   {results.search.matches.length > 0 ? (
                     <div className="match-grid">
                       {results.search.matches.map((m, idx) => (
@@ -482,12 +482,12 @@ function App() {
                               <a href={m.url} target="_blank" rel="noreferrer" className="match-url">{m.url}</a>
                             </div>
                           </div>
-                          
-                          <div style={{display: 'flex', alignItems: 'center', gap: '2rem'}}>
+
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
                             <RadialProgress score={m.score} />
-                            
-                            <button 
-                              className="btn-primary btn-anchor" 
+
+                            <button
+                              className="btn-primary btn-anchor"
                               onClick={() => handleAnchor(m)}
                               disabled={stage >= 4}
                             >
@@ -521,7 +521,7 @@ function App() {
               {stage === 4 && (
                 <div className="terminal-panel">
                   <div className="terminal-header">
-                    <Loader2 className="animate-spin text-muted" size={20} /> 
+                    <Loader2 className="animate-spin text-muted" size={20} />
                     <span>Authorizing cryptographic signature on Polygon Amoy...</span>
                   </div>
                   <div className="terminal-content">
@@ -542,10 +542,10 @@ function App() {
               {anchorData && anchorData.chain.status !== 'demo' && (
                 <div className="terminal-panel reveal-stamp">
                   <div className="terminal-header">
-                    <CheckCircle2 className="color-shift" size={24} /> 
-                    <span className="color-shift" style={{fontWeight: 600, letterSpacing: '0.1em'}}>LEDGER SYNCHRONIZATION COMPLETE</span>
+                    <CheckCircle2 className="color-shift" size={24} />
+                    <span className="color-shift" style={{ fontWeight: 600, letterSpacing: '0.1em' }}>LEDGER SYNCHRONIZATION COMPLETE</span>
                   </div>
-                  
+
                   <div className="terminal-content">
                     <div className="term-line">
                       <span className="term-label">IPFS_CID</span>
@@ -554,7 +554,7 @@ function App() {
                     <div className="term-line">
                       <span className="term-label">TX_HASH</span>
                       <a href={anchorData.chain.explorerUrl} target="_blank" rel="noreferrer" className="term-value term-success color-shift">
-                        {anchorData.chain.txHash} <ExternalLink size={12} className="inline-icon"/>
+                        {anchorData.chain.txHash} <ExternalLink size={12} className="inline-icon" />
                       </a>
                     </div>
                     <div className="term-line">
@@ -572,10 +572,10 @@ function App() {
               {anchorData && anchorData.chain.status === 'demo' && (
                 <div className="terminal-panel reveal-stamp">
                   <div className="terminal-header">
-                    <CheckCircle2 className="color-shift" size={24} /> 
-                    <span className="color-shift" style={{fontWeight: 600, letterSpacing: '0.1em'}}>RECORD READY · DEMO MODE</span>
+                    <CheckCircle2 className="color-shift" size={24} />
+                    <span className="color-shift" style={{ fontWeight: 600, letterSpacing: '0.1em' }}>RECORD READY · DEMO MODE</span>
                   </div>
-                  
+
                   <div className="terminal-content">
                     <div className="term-line">
                       <span className="term-label">SOURCE</span>
@@ -585,7 +585,7 @@ function App() {
                       <span className="term-label">EVIDENCE SCORE</span>
                       <span className="term-value">{Math.round(anchorData.source.score * 100)}%</span>
                     </div>
-                    <div className="term-line" style={{marginTop: '10px'}}>
+                    <div className="term-line" style={{ marginTop: '10px' }}>
                       <span className="term-value color-shift">Add Polygon Amoy credentials in .env to write the record on-chain.</span>
                     </div>
                   </div>
