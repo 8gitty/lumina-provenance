@@ -1,0 +1,9 @@
+venv/
+.env
+__pycache__/
+*.pyc
+tests/__pycache__/
+.pytest_cache/
+gcp-service-account.json
+facechain_repo/
+err.txt

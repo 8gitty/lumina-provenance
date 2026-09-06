@@ -1,0 +1,205 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg-base: #13151f;
+  --bg-surface: rgba(19, 21, 31, 0.8);
+  --bg-glass: rgba(19, 21, 31, 0.4);
+  
+  --text-primary: #e9ecee;
+  --text-secondary: #aab9c7;
+  
+  --accent-primary: #e9ecee;
+  --accent-secondary: #6e8799;
+  
+  --border-light: hsla(0, 0%, 91%, 0.1);
+  --border-focus: hsla(0, 0%, 91%, 0.3);
+  
+  --success: #aab9c7;
+  --glow: 0 0 0px transparent;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+  cursor: auto;
+}
+
+/* Film Grain Animated Texture */
+body::before {
+  content: "";
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  right: -50%;
+  bottom: -50%;
+  width: 200%;
+  height: 200%;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  animation: grain 8s steps(10) infinite;
+  opacity: 0.4; /* Subtle noise */
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+/* Entry Gate */
+.entry-gate {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-base);
+  z-index: 9000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  transition: opacity 1.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 1.5s;
+}
+
+.entry-gate.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.entry-logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.entry-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  letter-spacing: 0.3em;
+  color: var(--text-primary);
+  opacity: 0;
+  animation: fadeUpIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.entry-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  opacity: 0;
+  animation: fadeUpIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.entry-options {
+  display: flex;
+  gap: 1.5rem;
+  opacity: 0;
+  animation: fadeUpIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s forwards;
+}
+
+@keyframes fadeUpIn {
+  0% { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Utility */
+.text-accent { color: var(--accent-primary); }
+.text-muted { color: var(--text-secondary); }
+
+/* Color-Shifting Glow Accent */
+.color-shift {
+  background: linear-gradient(90deg, #aab9c7, #ffffff, #6e8799, #aab9c7);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shiftGlow 8s ease-in-out infinite;
+}
+
+@keyframes shiftGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Glass panel */
+.glass-panel {
+  background: transparent;
+  border-top: 1px solid var(--border-light);
+  border-radius: 0px;
+  box-shadow: none;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-panel:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Base Buttons (overridden in App.css for magnetic) */
+.btn-primary {
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 400;
+  font-family: 'Inter', sans-serif;
+  border: 1px solid var(--border-light);
+  border-radius: 4px;
+  padding: 0.8rem 1.6rem;
+  cursor: pointer; /* Let custom cursor handle it */
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  letter-spacing: 0.5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:disabled {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: rgba(255,255,255,0.05);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 2px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 1px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
