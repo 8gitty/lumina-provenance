@@ -6,7 +6,7 @@ def pin_image_to_ipfs(image_path: str) -> str:
     """Uploads an image file to catbox.moe for instant, direct, public URL access."""
     url = "https://catbox.moe/user/api.php"
     with open(image_path, "rb") as f:
-        response = requests.post(url, data={"reqtype": "fileupload"}, files={"fileToUpload": f})
+        response = requests.post(url, data={"reqtype": "fileupload"}, files={"fileToUpload": f}, timeout=10)
         
     if response.status_code == 200:
         return response.text
