@@ -50,23 +50,6 @@ async def startup_event():
     except Exception as e:
         print(f"Failed to setup contract on startup: {e}")
 
-    # Preload DeepFace model in the background so the first request isn't slow
-    def preload_model():
-        try:
-            print("Preloading Facenet model...")
-            from deepface import DeepFace
-            import numpy as np
-            import cv2
-            img = np.zeros((224, 224, 3), dtype=np.uint8)
-            cv2.imwrite("dummy_preload.jpg", img)
-            DeepFace.represent("dummy_preload.jpg", model_name="Facenet", enforce_detection=False)
-            os.remove("dummy_preload.jpg")
-            print("Facenet model preloaded successfully.")
-        except Exception as e:
-            print(f"Error preloading model: {e}")
-            
-    threading.Thread(target=preload_model, daemon=True).start()
-
 @app.post("/api/analyze")
 def analyze_image(image: UploadFile = File(...)):
     try:
