@@ -28,7 +28,7 @@ def search_web_for_image(image_path: str):
                 content = image_file.read()
             image = vision.Image(content=content)
             
-            response = client.web_detection(image=image)
+            response = client.web_detection(image=image, timeout=10.0)
             
             # Check if there is an error (e.g. billing not enabled)
             if response.error.message:
