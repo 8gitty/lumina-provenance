@@ -224,7 +224,7 @@ function App() {
     const formData = new FormData()
     formData.append('image', file)
     try {
-      const res = await fetch('https://lumina-provenance.onrender.com/api/analyze', {
+      const res = await fetch('https://lumina-provenance-u19r.onrender.com/api/analyze', {
         method: 'POST',
         body: formData
       })
@@ -257,7 +257,7 @@ function App() {
         score: match.score,
         pageTitle: match.page_title || match.source || match.url
       }
-      const res = await fetch('https://lumina-provenance.onrender.com/api/anchor', {
+      const res = await fetch('https://lumina-provenance-u19r.onrender.com/api/anchor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
