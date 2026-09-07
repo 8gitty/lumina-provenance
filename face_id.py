@@ -8,7 +8,8 @@ def get_face_embedding(image_path: str):
     Returns the embedding (list of floats) and metadata.
     """
     try:
-        results = DeepFace.represent(img_path=image_path, model_name="Facenet", enforce_detection=True)
+        # Using OpenFace (15MB) instead of Facenet (92MB) to prevent memory thrashing on 512MB RAM
+        results = DeepFace.represent(img_path=image_path, model_name="OpenFace", enforce_detection=True)
         if len(results) > 0:
             face_data = results[0]
             embedding = face_data['embedding']
