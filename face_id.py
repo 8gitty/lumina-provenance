@@ -9,7 +9,8 @@ def get_face_embedding(image_path: str):
     """
     try:
         # Using OpenFace (15MB) instead of Facenet (92MB) to prevent memory thrashing on 512MB RAM
-        results = DeepFace.represent(img_path=image_path, model_name="OpenFace", enforce_detection=True)
+        # enforce_detection=False allows the demo to proceed even if the basic detector misses the face (e.g., due to sunglasses)
+        results = DeepFace.represent(img_path=image_path, model_name="OpenFace", enforce_detection=False)
         if len(results) > 0:
             face_data = results[0]
             embedding = face_data['embedding']
