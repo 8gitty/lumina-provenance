@@ -4,6 +4,7 @@ import tempfile
 import threading
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
@@ -237,3 +238,9 @@ def anchor_record(req: AnchorRequest):
             },
             "verify": verify_res
         }
+
+# Mount frontend static files
+import os
+dist_path = os.path.join(os.path.dirname(__file__), "frontend", "dist")
+if os.path.isdir(dist_path):
+    app.mount("/", StaticFiles(directory=dist_path, html=True), name="static")
