@@ -123,6 +123,8 @@ const RadialProgress = ({ score }) => {
   )
 }
 
+const API_BASE = import.meta.env.VITE_API_URL || ''
+
 function App() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const ambientAudio = useRef(new Audio('/ambient.wav'));
@@ -224,7 +226,7 @@ function App() {
     const formData = new FormData()
     formData.append('image', file)
     try {
-      const res = await fetch('https://lumina-provenance-u19r.onrender.com/api/analyze', {
+      const res = await fetch(`${API_BASE}/api/analyze`, {
         method: 'POST',
         body: formData
       })
@@ -257,7 +259,7 @@ function App() {
         score: match.score,
         pageTitle: match.page_title || match.source || match.url
       }
-      const res = await fetch('https://lumina-provenance-u19r.onrender.com/api/anchor', {
+      const res = await fetch(`${API_BASE}/api/anchor`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
