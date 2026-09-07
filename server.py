@@ -46,11 +46,7 @@ async def startup_event():
             contract_address = env_contract
             contract_abi, _ = get_abi()
         else:
-            print("Deploying contract...")
-            w3, account = get_w3_and_account()
-            contract_address, contract_abi = deploy_contract(w3, account)
-            print(f"Contract deployed at {contract_address}")
-            print(f"Add CONTRACT_ADDRESS={contract_address} to .env to reuse next time.")
+            print("No CONTRACT_ADDRESS found. Will deploy lazily on first anchor request if needed.")
     except Exception as e:
         print(f"Failed to setup contract on startup: {e}")
 
